@@ -82,12 +82,13 @@ additinal state information from the alarm controller.
             manual refers to the PC16-OUT module.  This module reads
             data from the PGM line and we can emulate that module here.
             This line does not go to the keypad, and is optional for
-            use by this library.  See: 
-   http://www.alarmhow.net/manuals/DSC/Modules/Output%20Modules/PC16-OUT.PDF 
-            for a listing of options.
+            use by this library.  
 
             For the PGM terminal to work, it will need to be connected to the
             AUX+ terminal with a 1k Ohm resistor (for PC1550s)
+
+See http://www.alarmhow.net/manuals/DSC/Modules/Output%20Modules/PC16-OUT.PDF 
+for a full listing of PGM options.
 
 PC1550 Interface Specification
 ----------------------------------------------------------------------------
@@ -273,6 +274,7 @@ To read from the panel, call one of the following methods:
 Example
 ----------------------------------------------------------------------------
 ```c++
+
 #include <PC1550.h>
 
 PC1550 alarm = PC1550();
@@ -287,13 +289,14 @@ void loop() {
   alarm.processTransmissionCycle();
 
   //print the state of the keypad and and PGM output to the Serial console
-  printState();
+  if (alarm.keypadStateChanged())
+     printState();
 
 }
 
 
 void printState(){
-      Serial.print("\r|");
+      Serial.print("\n|");
       alarm.ReadyLight() ? Serial.print("R") : Serial.print(" ");
       alarm.ArmedLight() ? Serial.print("A") : Serial.print(" ");
       alarm.MemoryLight() ? Serial.print("M") : Serial.print(" ");
@@ -307,20 +310,17 @@ void printState(){
       alarm.Zone6Light() ? Serial.print("6|") : Serial.print(" |");
       alarm.Beep() ? Serial.print("B| ") : Serial.print(" | ");
 
-      if (PGMOutput()){
-          alarm.fireButtonTripped()  ? Serial.print("F"):Serial.print(" ");
-          alarm.auxButtonTripped()   ? Serial.print("A"):Serial.print(" ");
-          alarm.panicButtonTripped() ? Serial.print("P|"):Serial.print(" |");
-          alarm.systemArmed() ? Serial.print("Armed   |") : 
-	        Serial.print("Disarmed|");
-	  alarm.Zone1Tripped() ? Serial.print("1") : Serial.print(" ");
-	  alarm.Zone2Tripped() ? Serial.print("2") : Serial.print(" ");
-	  alarm.Zone3Tripped() ? Serial.print("3") : Serial.print(" ");
-	  alarm.Zone4Tripped() ? Serial.print("4") : Serial.print(" ");
-	  alarm.Zone5Tripped() ? Serial.print("5") : Serial.print(" ");
-	  alarm.Zone6Tripped() ? Serial.print("6") : Serial.print(" ");
-	  alarm.AlarmTripped() ? Serial.print("|A|") : Serial.print("| |");
-      }
-
+      alarm.fireButtonTripped()  ? Serial.print("F"):Serial.print(" ");
+      alarm.auxButtonTripped()   ? Serial.print("A"):Serial.print(" ");
+      alarm.panicButtonTripped() ? Serial.print("P|"):Serial.print(" |");
+      alarm.systemArmed() ? Serial.print("Armed   |") : Serial.print("Disarmed|");
+      alarm.Zone1Tripped() ? Serial.print("1") : Serial.print(" ");
+      alarm.Zone2Tripped() ? Serial.print("2") : Serial.print(" ");
+      alarm.Zone3Tripped() ? Serial.print("3") : Serial.print(" ");
+      alarm.Zone4Tripped() ? Serial.print("4") : Serial.print(" ");
+      alarm.Zone5Tripped() ? Serial.print("5") : Serial.print(" ");
+      alarm.Zone6Tripped() ? Serial.print("6") : Serial.print(" ");
+      alarm.AlarmTripped() ? Serial.print("|A|") : Serial.print("| |");
+ 
 }
 ```
