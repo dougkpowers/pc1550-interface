@@ -15,8 +15,8 @@ Hardware Connections
 ----------------------------------------------------------------------------
 
 There are four wires that go to the keypad:
-   Red      
-   --------
+
+#### Red      
 
             Voltage.  This should be about 12V.  On my system, a
             voltage meter read 13.3V with a brand new battery.  You 
@@ -27,13 +27,12 @@ There are four wires that go to the keypad:
             supply, your Arduino will continue to be powered even
             when the electrity goes out (quite convenient).
 
-   Black   
-   --------
+#### Black   
  
             Ground.  If you're using the PC1550 to supply power to
             the Arduino, connect this to the GND pin next to the Vin pin
-   Yellow  
-   --------
+
+#### Yellow  
 
             Clock.  The PC1550 control panel determines the clock cycle.
             So long as the processClockCycle() method on this class is 
@@ -61,8 +60,7 @@ There are four wires that go to the keypad:
             digital or analog pin will do.  Analog PIN 4 is the default
             but can be overriden via the constructor to this class.
 
-   Green  
-   --------
+#### Green  
 
             Data.  The data line is used to send bits to and from the
             PC1550 when the clock is low and high, respectively.
@@ -76,8 +74,7 @@ There are four wires that go to the keypad:
 There is one additional connection that can be made that can provide
 additinal state information from the alarm controller.
 
-   Blue   
-   --------
+#### Blue   
 
             PGM.  The PGM terminal on the DSC PC1550 control panel
             can be programmed to do a number of things.  One option
@@ -154,26 +151,27 @@ on this line if (and ONLY IF) the PGM line is configured in PC-16OUT
 mode.  Refer to the PC1550 installation manual for instructions on
 how to configure this mode.  The bits meaning follow:
 
-   0 --  PGM Output (whatever the PGM is configured for)
-         (This library assumes PGM terminal has been programmed for
-         strobe output.  This sets bit 0 to the on position
-         when the alarm goes off.  And the bit remains set until
-         the panel is disarmed).
-   1 --  Fire buttom pressed (on for 4 sec)
-   2 --  Aux button pressed (on for 4 sec)
-   3 --  Panic button pressed (on for 4 sec)
-   4 --  Armed
-   5 --  Armed
-   6 --  Armed with bypass (on for 5 sec)
-   7 --  Trouble 
-   8 --  Fire (on when fire alarm is latched in)
-   9 --  Not used
-  10 --  Zone 6 tripped while armed
-  11 --  Zone 5 tripped while armed
-  12 --  Zone 4 tripped while armed
-  13 --  Zone 3 tripped while armed
-  14 --  Zone 2 tripped while armed
-  15 --  Zone 1 tripped while armed
+
+*   0 --  PGM Output (whatever the PGM is configured for)
+...       (This library assumes PGM terminal has been programmed for
+...       strobe output.  This sets bit 0 to the on position
+...       when the alarm goes off.  And the bit remains set until
+...       the panel is disarmed).
+*   1 --  Fire buttom pressed (on for 4 sec)
+*   2 --  Aux button pressed (on for 4 sec)
+*   3 --  Panic button pressed (on for 4 sec)
+*   4 --  Armed
+*   5 --  Armed
+*   6 --  Armed with bypass (on for 5 sec)
+*   7 --  Trouble 
+*   8 --  Fire (on when fire alarm is latched in)
+*   9 --  Not used
+*  10 --  Zone 6 tripped while armed
+*  11 --  Zone 5 tripped while armed
+*  12 --  Zone 4 tripped while armed
+*  13 --  Zone 3 tripped while armed
+*  14 --  Zone 2 tripped while armed
+*  15 --  Zone 1 tripped while armed
 
 For the PGM terminal to work, it will need to be connected to the
 AUX+ terminal with a 1k Ohm resistor (for PC1550s)
@@ -274,6 +272,7 @@ To read from the panel, call one of the following methods:
 
 Example
 ----------------------------------------------------------------------------
+```c++
 #include <PC1550.h>
 
 PC1550 alarm = PC1550();
@@ -324,3 +323,4 @@ void printState(){
       }
 
 }
+```
