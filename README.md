@@ -206,7 +206,7 @@ The PC1550 object has a number of methods you may call to determine the
 state of the alarm based on the PGM output terminal.  All the following 
 methods return a boolean value:
 
-      PGMOutput()          -- Indicates whether there is PGM output
+      PGMOutput()          -- Indicates the programmable PGMOuput bit is set
       fireButtonTripped()  -- Indicates the fire button on the keypad caused
                               the fire alert to be tripped
       auxButtonTripped()   -- Indicates the aux button on the keypad caused 
