@@ -15,7 +15,10 @@ Hardware Connections
 ----------------------------------------------------------------------------
 
 There are four wires that go to the keypad:
-   Red    - Voltage.  This should be about 12V.  On my system, a
+   Red      
+   --------
+
+            Voltage.  This should be about 12V.  On my system, a
             voltage meter read 13.3V with a brand new battery.  You 
             should be able to safely use this as a power supply for the 
             Arduino.  Simply connect the red line to the pin labeled Vin.  
@@ -23,9 +26,16 @@ There are four wires that go to the keypad:
             of the rest.  Because the PC1550 has a backup battery
             supply, your Arduino will continue to be powered even
             when the electrity goes out (quite convenient).
-   Black  - Ground.  If you're using the PC1550 to supply power to
+
+   Black   
+   --------
+ 
+            Ground.  If you're using the PC1550 to supply power to
             the Arduino, connect this to the GND pin next to the Vin pin
-   Yellow - Clock.  The PC1550 control panel determines the clock cycle.
+   Yellow  
+   --------
+
+            Clock.  The PC1550 control panel determines the clock cycle.
             So long as the processClockCycle() method on this class is 
             called more frequently than half a clock cycle from the PC1550
             then we will safely be able to read and write signals from
@@ -51,7 +61,10 @@ There are four wires that go to the keypad:
             digital or analog pin will do.  Analog PIN 4 is the default
             but can be overriden via the constructor to this class.
 
-   Green  - Data.  The data line is used to send bits to and from the
+   Green  
+   --------
+
+            Data.  The data line is used to send bits to and from the
             PC1550 when the clock is low and high, respectively.
           
             Connect this line to any analog pin.  While we can read
@@ -63,7 +76,10 @@ There are four wires that go to the keypad:
 There is one additional connection that can be made that can provide
 additinal state information from the alarm controller.
 
-   Blue   - PGM.  The PGM terminal on the DSC PC1550 control panel
+   Blue   
+   --------
+
+            PGM.  The PGM terminal on the DSC PC1550 control panel
             can be programmed to do a number of things.  One option
             is to configure it as a 2nd data line.  The installation
             manual refers to the PC16-OUT module.  This module reads
@@ -107,8 +123,8 @@ During the 16 clock cycles data is received when the clock is high:
      The table below shows how each bit is used.  Note that when bit 0
      is on, the keypad beep emits a short beep.
 
-   State Bit    7       6       5       4       3       2       1        0
-              Ready   Armed   Memory  Bypass Trouble  --Not Used--     Beep
+   State Bit  7       6       5       4       3       2       1       0
+              Ready   Armed   Memory  Bypass  Trouble X       X       Beep
 
 Between receipt of the zone bits, data can be sent back to the control
 panel when the clock is low.  In other words, the panel sends out its 
@@ -121,14 +137,13 @@ keypad as a table (rows and columns) of buttons, the first three
 bits received represent the column of the button pressed.  The last
 four bits represent the row of the button pressed:
 
-          First Three Bits                Last 4 Bits
+                   First Three Bits               Last 4 Bits
      Column 1      100                    Row 1   0001
      Column 2      010                    Row 2   0010
      Column 3      001                    Row 3   0100
                                           Row 4   1000
                                           Row 5   0000
-
-  No Key Pressed   000                            0000 
+     No Key        000                            0000 
 
 Encoding bits in the data line:
   When the data line is LOW  the corresponding bit should be ON.
@@ -138,24 +153,27 @@ If the PGM line is connected, then 16 more bits of data are received
 on this line if (and ONLY IF) the PGM line is configured in PC-16OUT
 mode.  Refer to the PC1550 installation manual for instructions on
 how to configure this mode.  The bits meaning follow:
-   0 - PGM Output (whatever the PGM is configured for)
-       (This library assumes PGM terminal has been programmed for
-        strobe output.  This sets bit 0 to the on position
-        when the alarm goes off.  And the bit remains set until
-        the panel is disarmed).
-   1 - Fire buttom pressed (on for 4 sec)
-   2 - Aux button pressed (on for 4 sec)
-   3 - Panic button pressed (on for 4 sec)
-   4 - Armed
-   5 - Armed
-   6 - Armed with bypass (on for 5 sec)
-   7 - Trouble 
-   8 - Fire (on when fire alarm is latched in)
-   9 - Not used
-  10 - Zone 6 tripped while armed
-  11 - Zone 5 tripped while armed
-       ...
-  15 - Zone 1 tripped while armed
+
+   0 --  PGM Output (whatever the PGM is configured for)
+         (This library assumes PGM terminal has been programmed for
+         strobe output.  This sets bit 0 to the on position
+         when the alarm goes off.  And the bit remains set until
+         the panel is disarmed).
+   1 --  Fire buttom pressed (on for 4 sec)
+   2 --  Aux button pressed (on for 4 sec)
+   3 --  Panic button pressed (on for 4 sec)
+   4 --  Armed
+   5 --  Armed
+   6 --  Armed with bypass (on for 5 sec)
+   7 --  Trouble 
+   8 --  Fire (on when fire alarm is latched in)
+   9 --  Not used
+  10 --  Zone 6 tripped while armed
+  11 --  Zone 5 tripped while armed
+  12 --  Zone 4 tripped while armed
+  13 --  Zone 3 tripped while armed
+  14 --  Zone 2 tripped while armed
+  15 --  Zone 1 tripped while armed
 
 For the PGM terminal to work, it will need to be connected to the
 AUX+ terminal with a 1k Ohm resistor (for PC1550s)
