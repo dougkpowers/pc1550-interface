@@ -72,7 +72,7 @@ There are four wires that go to the keypad:
             is the default but can be overridden via the contructor.
 
 There is one additional connection that can be made that can provide
-additinal state information from the alarm controller.
+additional state information from the alarm controller.
 
 #### Blue   
 
@@ -82,10 +82,12 @@ additinal state information from the alarm controller.
             manual refers to the PC16-OUT module.  This module reads
             data from the PGM line and we can emulate that module here.
             This line does not go to the keypad, and is optional for
-            use by this library.  
+            use by this library.
 
             For the PGM terminal to work, it will need to be connected to the
-            AUX+ terminal with a 1k Ohm resistor (for PC1550s)
+            AUX+ terminal with a 1k Ohm resistor (for PC1550s).
+            
+            Analog pin 1 is the default but can be overridden via the contructor.
 
 See http://www.alarmhow.net/manuals/DSC/Modules/Output%20Modules/PC16-OUT.PDF 
 for a full listing of PGM options.
